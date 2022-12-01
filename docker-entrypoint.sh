@@ -72,38 +72,38 @@ if [[ -n "$LISTEN_PORT" ]]; then
     JQ_FILTERS_CONFIG="$JQ_FILTERS_CONFIG | .port=$LISTEN_PORT"
 fi
 
-if [[ "$LISTEN_ADDR" ]]; then
+if [[ -n "$LISTEN_ADDR" ]]; then
     JQ_FILTERS_CONFIG="$JQ_FILTERS_CONFIG | .metadataDaemon.bindAddress=\"$LISTEN_ADDR\""
     JQ_FILTERS_CONFIG="$JQ_FILTERS_CONFIG | .dataDaemon.bindAddress=\"$LISTEN_ADDR\""
     JQ_FILTERS_CONFIG="$JQ_FILTERS_CONFIG | .pfsDaemon.bindAddress=\"$LISTEN_ADDR\""
     JQ_FILTERS_CONFIG="$JQ_FILTERS_CONFIG | .listenOn=[\"$LISTEN_ADDR:$LISTEN_PORT\"]"
 fi
 
-if [[ "$REPLICATION_GROUP_ID" ]] ; then
+if [[ -n "$REPLICATION_GROUP_ID" ]] ; then
     JQ_FILTERS_CONFIG="$JQ_FILTERS_CONFIG | .replicationGroupId=\"$REPLICATION_GROUP_ID\""
 fi
 
-if [[ "$DATA_HOST" ]]; then
+if [[ -n "$DATA_HOST" ]]; then
     JQ_FILTERS_CONFIG="$JQ_FILTERS_CONFIG | .dataClient.host=\"$DATA_HOST\""
 fi
 
-if [[ "$METADATA_HOST" ]]; then
+if [[ -n "$METADATA_HOST" ]]; then
     JQ_FILTERS_CONFIG="$JQ_FILTERS_CONFIG | .metadataClient.host=\"$METADATA_HOST\""
 fi
 
-if [[ "$PFSD_HOST" ]]; then
+if [[ -n "$PFSD_HOST" ]]; then
     JQ_FILTERS_CONFIG="$JQ_FILTERS_CONFIG | .pfsClient.host=\"$PFSD_HOST\""
 fi
 
-if [[ "$MONGODB_HOSTS" ]]; then
+if [[ -n "$MONGODB_HOSTS" ]]; then
     JQ_FILTERS_CONFIG="$JQ_FILTERS_CONFIG | .mongodb.replicaSetHosts=\"$MONGODB_HOSTS\""
 fi
 
-if [[ "$MONGODB_RS" ]]; then
+if [[ -n "$MONGODB_RS" ]]; then
     JQ_FILTERS_CONFIG="$JQ_FILTERS_CONFIG | .mongodb.replicaSet=\"$MONGODB_RS\""
 fi
 
-if [[ "$MONGODB_DATABASE" ]]; then
+if [[ -n "$MONGODB_DATABASE" ]]; then
    JQ_FILTERS_CONFIG="$JQ_FILTERS_CONFIG | .mongodb.database=\"$MONGODB_DATABASE\""
 fi
 
@@ -111,91 +111,91 @@ if [ -z "$REDIS_HA_NAME" ]; then
     REDIS_HA_NAME='mymaster'
 fi
 
-if [[ "$REDIS_SENTINELS" ]]; then
+if [[ -n "$REDIS_SENTINELS" ]]; then
     JQ_FILTERS_CONFIG="$JQ_FILTERS_CONFIG | .localCache.name=\"$REDIS_HA_NAME\""
     JQ_FILTERS_CONFIG="$JQ_FILTERS_CONFIG | .localCache.sentinels=\"$REDIS_SENTINELS\""
-elif [[ "$REDIS_HOST" ]]; then
+elif [[ -n "$REDIS_HOST" ]]; then
     JQ_FILTERS_CONFIG="$JQ_FILTERS_CONFIG | .localCache.host=\"$REDIS_HOST\""
     JQ_FILTERS_CONFIG="$JQ_FILTERS_CONFIG | .localCache.port=6379"
 fi
 
-if [[ "$REDIS_PORT" ]] && [[ ! "$REDIS_SENTINELS" ]]; then
+if [[ -n "$REDIS_PORT" ]] && [[ -z "$REDIS_SENTINELS" ]]; then
     JQ_FILTERS_CONFIG="$JQ_FILTERS_CONFIG | .localCache.port=$REDIS_PORT"
 fi
 
-if [[ "$REDIS_SENTINELS" ]]; then
+if [[ -n "$REDIS_SENTINELS" ]]; then
     JQ_FILTERS_CONFIG="$JQ_FILTERS_CONFIG | .redis.name=\"$REDIS_HA_NAME\""
     JQ_FILTERS_CONFIG="$JQ_FILTERS_CONFIG | .redis.sentinels=\"$REDIS_SENTINELS\""
-elif [[ "$REDIS_HA_HOST" ]]; then
+elif [[ -n "$REDIS_HA_HOST" ]]; then
     JQ_FILTERS_CONFIG="$JQ_FILTERS_CONFIG | .redis.host=\"$REDIS_HA_HOST\""
     JQ_FILTERS_CONFIG="$JQ_FILTERS_CONFIG | .redis.port=6379"
 fi
 
-if [[ "$REDIS_HA_PORT" ]] && [[ ! "$REDIS_SENTINELS" ]]; then
+if [[ -n "$REDIS_HA_PORT" ]] && [[ -z "$REDIS_SENTINELS" ]]; then
     JQ_FILTERS_CONFIG="$JQ_FILTERS_CONFIG | .redis.port=$REDIS_HA_PORT"
 fi
 
-if [[ "$RECORDLOG_ENABLED" ]]; then
+if [[ -n "$RECORDLOG_ENABLED" ]]; then
     JQ_FILTERS_CONFIG="$JQ_FILTERS_CONFIG | .recordLog.enabled=true"
 fi
 
-if [[ "$STORAGE_LIMIT_ENABLED" ]]; then
+if [[ -n "$STORAGE_LIMIT_ENABLED" ]]; then
     JQ_FILTERS_CONFIG="$JQ_FILTERS_CONFIG | .utapi.metrics[.utapi.metrics | length]=\"location\""
 fi
 
-if [[ "$CRR_METRICS_HOST" ]]; then
+if [[ -n "$CRR_METRICS_HOST" ]]; then
     JQ_FILTERS_CONFIG="$JQ_FILTERS_CONFIG | .backbeat.host=\"$CRR_METRICS_HOST\""
 fi
 
-if [[ "$CRR_METRICS_PORT" ]]; then
+if [[ -n "$CRR_METRICS_PORT" ]]; then
     JQ_FILTERS_CONFIG="$JQ_FILTERS_CONFIG | .backbeat.port=$CRR_METRICS_PORT"
 fi
 
-if [[ "$WE_OPERATOR_HOST" ]]; then
+if [[ -n "$WE_OPERATOR_HOST" ]]; then
     JQ_FILTERS_CONFIG="$JQ_FILTERS_CONFIG | .workflowEngineOperator.host=\"$WE_OPERATOR_HOST\""
 fi
 
-if [[ "$WE_OPERATOR_PORT" ]]; then
+if [[ -n "$WE_OPERATOR_PORT" ]]; then
     JQ_FILTERS_CONFIG="$JQ_FILTERS_CONFIG | .workflowEngineOperator.port=$WE_OPERATOR_PORT"
 fi
 
-if [[ "$HEALTHCHECKS_ALLOWFROM" ]]; then
+if [[ -n "$HEALTHCHECKS_ALLOWFROM" ]]; then
     JQ_FILTERS_CONFIG="$JQ_FILTERS_CONFIG | .healthChecks.allowFrom=[\"$HEALTHCHECKS_ALLOWFROM\"]"
 fi
 
 # external backends http(s) agent config
 
 # AWS
-if [[ "$AWS_S3_HTTPAGENT_KEEPALIVE" ]]; then
+if [[ -n "$AWS_S3_HTTPAGENT_KEEPALIVE" ]]; then
     JQ_FILTERS_CONFIG="$JQ_FILTERS_CONFIG | .externalBackends.aws_s3.httpAgent.keepAlive=$AWS_S3_HTTPAGENT_KEEPALIVE"
 fi
 
-if [[ "$AWS_S3_HTTPAGENT_KEEPALIVE_MS" ]]; then
+if [[ -n "$AWS_S3_HTTPAGENT_KEEPALIVE_MS" ]]; then
     JQ_FILTERS_CONFIG="$JQ_FILTERS_CONFIG | .externalBackends.aws_s3.httpAgent.keepAliveMsecs=$AWS_S3_HTTPAGENT_KEEPALIVE_MS"
 fi
 
-if [[ "$AWS_S3_HTTPAGENT_KEEPALIVE_MAX_SOCKETS" ]]; then
+if [[ -n "$AWS_S3_HTTPAGENT_KEEPALIVE_MAX_SOCKETS" ]]; then
     JQ_FILTERS_CONFIG="$JQ_FILTERS_CONFIG | .externalBackends.aws_s3.httpAgent.maxSockets=$AWS_S3_HTTPAGENT_KEEPALIVE_MAX_SOCKETS"
 fi
 
-if [[ "$AWS_S3_HTTPAGENT_KEEPALIVE_MAX_FREE_SOCKETS" ]]; then
+if [[ -n "$AWS_S3_HTTPAGENT_KEEPALIVE_MAX_FREE_SOCKETS" ]]; then
     JQ_FILTERS_CONFIG="$JQ_FILTERS_CONFIG | .externalBackends.aws_s3.httpAgent.maxFreeSockets=$AWS_S3_HTTPAGENT_KEEPALIVE_MAX_FREE_SOCKETS"
 fi
 
 #GCP
-if [[ "$GCP_HTTPAGENT_KEEPALIVE" ]]; then
+if [[ -n "$GCP_HTTPAGENT_KEEPALIVE" ]]; then
     JQ_FILTERS_CONFIG="$JQ_FILTERS_CONFIG | .externalBackends.gcp.httpAgent.keepAlive=$GCP_HTTPAGENT_KEEPALIVE"
 fi
 
-if [[ "$GCP_HTTPAGENT_KEEPALIVE_MS" ]]; then
+if [[ -n "$GCP_HTTPAGENT_KEEPALIVE_MS" ]]; then
     JQ_FILTERS_CONFIG="$JQ_FILTERS_CONFIG | .externalBackends.gcp.httpAgent.keepAliveMsecs=$GCP_HTTPAGENT_KEEPALIVE_MS"
 fi
 
-if [[ "$GCP_HTTPAGENT_KEEPALIVE_MAX_SOCKETS" ]]; then
+if [[ -n "$GCP_HTTPAGENT_KEEPALIVE_MAX_SOCKETS" ]]; then
     JQ_FILTERS_CONFIG="$JQ_FILTERS_CONFIG | .externalBackends.gcp.httpAgent.maxSockets=$GCP_HTTPAGENT_KEEPALIVE_MAX_SOCKETS"
 fi
 
-if [[ "$GCP_HTTPAGENT_KEEPALIVE_MAX_FREE_SOCKETS" ]]; then
+if [[ -n "$GCP_HTTPAGENT_KEEPALIVE_MAX_FREE_SOCKETS" ]]; then
     JQ_FILTERS_CONFIG="$JQ_FILTERS_CONFIG | .externalBackends.gcp.httpAgent.maxFreeSockets=$GCP_HTTPAGENT_KEEPALIVE_MAX_FREE_SOCKETS"
 fi
 
