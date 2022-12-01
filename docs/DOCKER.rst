@@ -163,7 +163,18 @@ If SSL is set true:
 
   For more information about using ClousdServer with SSL, see `Using SSL <GETTING_STARTED.html#Using SSL>`__
 
-LISTEN\_ADDR
+LISTEN\_PORT
+~~~~~~~~~~~~
+
+This variable allows users to start cloudserver on an arbitrary port. The default
+value is 8000.
+
+.. code:: shell
+
+    docker run -d --name cloudserver -p 9000:9000 -e LISTEN_PORT=9000
+    zenko/cloudserver
+
+  LISTEN\_ADDR
 ~~~~~~~~~~~~
 
 This variable causes CloudServer and its data and metadata components to 

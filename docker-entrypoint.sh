@@ -68,11 +68,15 @@ if ! grep -q "certFilePaths" ./config.json; then
 fi
 fi
 
+if [[ -n "$LISTEN_PORT" ]]; then
+    JQ_FILTERS_CONFIG="$JQ_FILTERS_CONFIG | .port=$LISTEN_PORT"
+fi
+
 if [[ "$LISTEN_ADDR" ]]; then
     JQ_FILTERS_CONFIG="$JQ_FILTERS_CONFIG | .metadataDaemon.bindAddress=\"$LISTEN_ADDR\""
     JQ_FILTERS_CONFIG="$JQ_FILTERS_CONFIG | .dataDaemon.bindAddress=\"$LISTEN_ADDR\""
     JQ_FILTERS_CONFIG="$JQ_FILTERS_CONFIG | .pfsDaemon.bindAddress=\"$LISTEN_ADDR\""
-    JQ_FILTERS_CONFIG="$JQ_FILTERS_CONFIG | .listenOn=[\"$LISTEN_ADDR:8000\"]"
+    JQ_FILTERS_CONFIG="$JQ_FILTERS_CONFIG | .listenOn=[\"$LISTEN_ADDR:$LISTEN_PORT\"]"
 fi
 
 if [[ "$REPLICATION_GROUP_ID" ]] ; then
